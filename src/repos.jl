@@ -17,6 +17,7 @@ METX_PKGS_REGISTRY = Dict(
     "SimpleLockFiles" => ("https://github.com/josePereiro/SimpleLockFiles.jl", "main"),
 )
 
+# just Pkg.add(;url)
 function add_repos(proj::String = ""; rm = false)
     Pkg.activate(proj) do
         for (name, (url, rev)) in METX_PKGS_REGISTRY
@@ -27,9 +28,10 @@ function add_repos(proj::String = ""; rm = false)
     end
 end
 
+# just the equivalent to git pull
 pull_repos(proj::String = ""; rm = false) = add_repos(proj; rm)
 
-
+# the equivalent to git pull + dev(pkg)
 function dev_repos(proj::String = ""; rm = false)
     Pkg.activate(proj) do
         for (_, (url, _)) in METX_PKGS_REGISTRY
