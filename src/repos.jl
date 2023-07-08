@@ -27,6 +27,8 @@ function add_repos(proj::String = ""; rm = false)
     end
 end
 
+pull_repos(proj::String = ""; rm = false) = add_repos(proj; rm)
+
 
 function dev_repos(proj::String = ""; rm = false)
     Pkg.activate(proj) do
