@@ -44,7 +44,7 @@ function push_devrepos(dev = Pkg.devdir())
         dirs = joinpath.([dev], [name, string(name, ".jl")])
         for dir in dirs
             isdir(dir) || continue
-            println("."^40); println("."^40)
+            println("."^40)
             _ignore_err() do
                 cd(dir) do
                     cmd = Cmd(`git push`; ignorestatus = true)
