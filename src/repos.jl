@@ -9,6 +9,7 @@ METX_PKGS_REGISTRY = Dict(
     "MetXOptim" => ("https://github.com/MetabolicXploration/MetXOptim.jl", "main"),
     "MetXPlots" => ("https://github.com/MetabolicXploration/MetXPlots.jl", "main"),
     "ProjFlows" => ("https://github.com/MetabolicXploration/ProjFlows.jl", "main"),
+    "MetXDev" => ("https://github.com/MetabolicXploration/MetXDev.jl", "main"),
 
     # External Tools
     "DataFileNames" => ("https://github.com/josePereiro/DataFileNames.jl", "main"),
