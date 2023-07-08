@@ -2,6 +2,8 @@ module MetXDev
 
 
     import Pkg
+    import Pkg: RegistrySpec
+    import Pkg: PackageSpec
 
     #! include .
     include("juliadev.jl")
