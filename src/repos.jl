@@ -21,7 +21,7 @@ function add_repos(proj::String = ""; rm = false)
         for (name, (url, rev)) in METX_PKGS_REGISTRY
             println("."^40)
             rm && _ignore_err(() -> Pkg.rm(name))
-            _ignore_err(() -> Pkg.add(url, rev))
+            _ignore_err(() -> Pkg.add(;url, rev))
         end
     end
 end
@@ -32,7 +32,7 @@ function dev_repos(proj::String = ""; rm = false)
         for (_, (url, _)) in METX_PKGS_REGISTRY
             println("."^40)
             rm && _ignore_err(() -> Pkg.rm(name))
-            _ignore_err(() -> Pkg.develop(url))
+            _ignore_err(() -> Pkg.develop(;url))
         end
     end
 end
