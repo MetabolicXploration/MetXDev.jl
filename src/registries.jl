@@ -7,7 +7,7 @@ function add_registries()
     for (_, (url, _)) in METX_PKGS_REGISTRIES_REGISTRY
         _ignore_err() do
             println("."^40)
-            Pkg.Registry.add(RegistrySpec(url))
+            Pkg.Registry.add(RegistrySpec(;url))
         end
     end
 end
