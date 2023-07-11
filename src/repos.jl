@@ -60,7 +60,6 @@ function push_devrepos(dev = Pkg.devdir())
 end
 
 # Assumes repos are at dev
-# Assumes repos are at dev
 function resolve_devrepos(dev = Pkg.devdir())
     for name in keys(METX_PKGS_REGISTRY)
         dirs = joinpath.([dev], [name, string(name, ".jl")])
@@ -70,6 +69,22 @@ function resolve_devrepos(dev = Pkg.devdir())
             activate(dir) do
                 _ignore_err() do
                     Pkg.resolve()
+                end
+            end
+        end
+    end
+end
+
+# Assumes repos are at dev
+function instantiate_devrepos(dev = Pkg.devdir())
+    for name in keys(METX_PKGS_REGISTRY)
+        dirs = joinpath.([dev], [name, string(name, ".jl")])
+        for dir in dirs
+            isdir(dir) || continue
+            println("."^40)
+            activate(dir) do
+                _ignore_err() do
+                    Pkg.instantiate()
                 end
             end
         end
