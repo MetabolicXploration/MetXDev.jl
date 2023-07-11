@@ -19,7 +19,7 @@ METX_PKGS_REGISTRY = Dict(
 
 # just Pkg.add(;url)
 function add_repos(proj::String = ""; rm = false)
-    Pkg.activate(proj) do
+    activate(proj) do
         for (name, (url, rev)) in METX_PKGS_REGISTRY
             println("."^40)
             rm && _ignore_err(() -> Pkg.rm(name))
@@ -33,7 +33,7 @@ pull_repos(proj::String = ""; rm = false) = add_repos(proj; rm)
 
 # the equivalent to git pull + dev(pkg)
 function dev_repos(proj::String = ""; rm = false)
-    Pkg.activate(proj) do
+    activate(proj) do
         for (_, (url, _)) in METX_PKGS_REGISTRY
             println("."^40)
             rm && _ignore_err(() -> Pkg.rm(name))
@@ -53,6 +53,23 @@ function push_devrepos(dev = Pkg.devdir())
                 cd(dir) do
                     cmd = Cmd(`git push`; ignorestatus = true)
                     println(read(cmd, String))
+                end
+            end
+        end
+    end
+end
+
+# Assumes repos are at dev
+# Assumes repos are at dev
+function resolve_devrepos(dev = Pkg.devdir())
+    for name in keys(METX_PKGS_REGISTRY)
+        dirs = joinpath.([dev], [name, string(name, ".jl")])
+        for dir in dirs
+            isdir(dir) || continue
+            println("."^40)
+            activate(dir) do
+                _ignore_err() do
+                    Pkg.resolve()
                 end
             end
         end
