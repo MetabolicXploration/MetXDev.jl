@@ -11,6 +11,4 @@ module MetXDev
     include("repos.jl")
     include("utils.jl")
 
-    @_exportall_words
-
 end
