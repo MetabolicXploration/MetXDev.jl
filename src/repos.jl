@@ -56,6 +56,7 @@ function push_devrepos(dev = Pkg.devdir())
                     println(read(cmd, String))
                 end
             end
+            break
         end
     end
 end
@@ -77,6 +78,7 @@ function pull_devrepos(dev = Pkg.devdir())
                     println(read(cmd, String))
                 end
             end
+            break
         end
     end
 end
@@ -96,6 +98,7 @@ function resolve_devrepos(dev = Pkg.devdir())
                     Pkg.resolve()
                 end
             end
+            break
         end
     end
 end
@@ -115,6 +118,7 @@ function instantiate_devrepos(dev = Pkg.devdir())
                     Pkg.instantiate()
                 end
             end
+            break
         end
     end
 end
