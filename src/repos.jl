@@ -29,9 +29,6 @@ function add_repos(proj::String = ""; rm = false)
     end
 end
 
-# just the equivalent to git pull
-pull_repos(proj::String = ""; rm = false) = add_repos(proj; rm)
-
 # the equivalent to git pull + dev(pkg)
 function dev_repos(proj::String = ""; rm = false)
     activate(proj) do
@@ -48,11 +45,35 @@ function push_devrepos(dev = Pkg.devdir())
     for name in keys(METX_PKGS_REGISTRY)
         dirs = joinpath.([dev], [name, string(name, ".jl")])
         for dir in dirs
-            isdir(dir) || continue
             println("."^40)
+            if !isdir(dir) 
+                @warn("Dir not found", dir)
+                continue
+            end
             _ignore_err() do
                 cd(dir) do
                     cmd = Cmd(`git push`; ignorestatus = true)
+                    println(read(cmd, String))
+                end
+            end
+        end
+    end
+end
+
+# Assumes repos are at dev
+# git pull att dev/pkg
+function pull_repos(dev = Pkg.devdir())
+    for name in keys(METX_PKGS_REGISTRY)
+        dirs = joinpath.([dev], [name, string(name, ".jl")])
+        for dir in dirs
+            println("."^40)
+            if !isdir(dir) 
+                @warn("Dir not found", dir)
+                continue
+            end
+            _ignore_err() do
+                cd(dir) do
+                    cmd = Cmd(`git pull`; ignorestatus = true)
                     println(read(cmd, String))
                 end
             end
@@ -65,8 +86,11 @@ function resolve_devrepos(dev = Pkg.devdir())
     for name in keys(METX_PKGS_REGISTRY)
         dirs = joinpath.([dev], [name, string(name, ".jl")])
         for dir in dirs
-            isdir(dir) || continue
             println("."^40)
+            if !isdir(dir) 
+                @warn("Dir not found", dir)
+                continue
+            end
             activate(dir) do
                 _ignore_err() do
                     Pkg.resolve()
@@ -81,8 +105,11 @@ function instantiate_devrepos(dev = Pkg.devdir())
     for name in keys(METX_PKGS_REGISTRY)
         dirs = joinpath.([dev], [name, string(name, ".jl")])
         for dir in dirs
-            isdir(dir) || continue
             println("."^40)
+            if !isdir(dir) 
+                @warn("Dir not found", dir)
+                continue
+            end
             activate(dir) do
                 _ignore_err() do
                     Pkg.instantiate()
