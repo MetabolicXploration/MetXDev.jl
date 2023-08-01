@@ -62,7 +62,7 @@ end
 
 # Assumes repos are at dev
 # git pull att dev/pkg
-function pull_repos(dev = Pkg.devdir())
+function pull_devrepos(dev = Pkg.devdir())
     for name in keys(METX_PKGS_REGISTRY)
         dirs = joinpath.([dev], [name, string(name, ".jl")])
         for dir in dirs
