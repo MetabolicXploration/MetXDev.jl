@@ -15,6 +15,7 @@ METX_PKGS_REGISTRY = Dict(
 
     # External Tools
     "DataFileNames" => ("https://github.com/josePereiro/DataFileNames.jl", "main"),
+    "ContextDBs" => ("https://github.com/josePereiro/ContextDBs.jl", "main"),
     "FilesTreeTools" => ("https://github.com/josePereiro/FilesTreeTools.jl", "main"),
     "SimpleLockFiles" => ("https://github.com/josePereiro/SimpleLockFiles.jl", "main"),
 )
@@ -24,6 +25,7 @@ function add_repos(proj::String = ""; rm = false)
     activate(proj) do
         for (name, (url, rev)) in METX_PKGS_REGISTRY
             println("."^40)
+            @show name
             rm && _ignore_err(() -> Pkg.rm(name))
             _ignore_err(() -> Pkg.add(;url, rev))
         end
@@ -33,8 +35,9 @@ end
 # the equivalent to git pull + dev(pkg)
 function dev_repos(proj::String = ""; rm = false)
     activate(proj) do
-        for (_, (url, _)) in METX_PKGS_REGISTRY
+        for (name, (url, _)) in METX_PKGS_REGISTRY
             println("."^40)
+            @show name
             rm && _ignore_err(() -> Pkg.rm(name))
             _ignore_err(() -> Pkg.develop(;url))
         end
@@ -47,6 +50,7 @@ function push_devrepos(dev = Pkg.devdir())
         dirs = joinpath.([dev], [name, string(name, ".jl")])
         for dir in dirs
             println("."^40)
+            @show dir
             if !isdir(dir) 
                 @warn("Dir not found", dir)
                 continue
@@ -69,6 +73,7 @@ function pull_devrepos(dev = Pkg.devdir())
         dirs = joinpath.([dev], [name, string(name, ".jl")])
         for dir in dirs
             println("."^40)
+            @show dir
             if !isdir(dir) 
                 @warn("Dir not found", dir)
                 continue
@@ -90,6 +95,7 @@ function resolve_devrepos(dev = Pkg.devdir())
         dirs = joinpath.([dev], [name, string(name, ".jl")])
         for dir in dirs
             println("."^40)
+            @show dir
             if !isdir(dir) 
                 @warn("Dir not found", dir)
                 continue
@@ -110,6 +116,7 @@ function instantiate_devrepos(dev = Pkg.devdir())
         dirs = joinpath.([dev], [name, string(name, ".jl")])
         for dir in dirs
             println("."^40)
+            @show dir
             if !isdir(dir) 
                 @warn("Dir not found", dir)
                 continue
