@@ -12,10 +12,12 @@ METX_PKGS_REGISTRY = Dict(
     "MetXDev" => ("https://github.com/MetabolicXploration/MetXDev.jl", "main"),
     "RunTestsEnv" => ("https://github.com/MetabolicXploration/RunTestsEnv.jl", "main"),
     "MetXNetHub" => ("https://github.com/MetabolicXploration/MetXNetHub.jl", "main"),
+    "MetXCultureHub" => ("https://github.com/MetabolicXploration/MetXCultureHub.jl", "main"),
 
     # External Tools
     "DataFileNames" => ("https://github.com/josePereiro/DataFileNames.jl", "main"),
     "ContextDBs" => ("https://github.com/josePereiro/ContextDBs.jl", "main"),
+    "ImgTools" => ("https://github.com/josePereiro/ImgTools.jl", "main"),
     "FilesTreeTools" => ("https://github.com/josePereiro/FilesTreeTools.jl", "main"),
     "SimpleLockFiles" => ("https://github.com/josePereiro/SimpleLockFiles.jl", "main"),
 )
