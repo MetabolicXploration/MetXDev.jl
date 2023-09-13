@@ -92,6 +92,30 @@ function pull_devrepos(dev = Pkg.devdir())
 end
 
 # Assumes repos are at dev
+# git status at dev/pkg
+function gitst_devrepos(dev = Pkg.devdir(); dostep = false)
+    for name in keys(METX_PKGS_REGISTRY)
+        dirs = joinpath.([dev], [name, string(name, ".jl")])
+        for dir in dirs
+            println("."^40)
+            @show dir
+            if !isdir(dir) 
+                @warn("Dir not found", dir)
+                continue
+            end
+            _ignore_err() do
+                cd(dir) do
+                    cmd = Cmd(`git status`; ignorestatus = true)
+                    println(read(cmd, String))
+                end
+            end
+            break
+        end
+        dostep && readline()
+    end
+end
+
+# Assumes repos are at dev
 function resolve_devrepos(dev = Pkg.devdir())
     for name in keys(METX_PKGS_REGISTRY)
         dirs = joinpath.([dev], [name, string(name, ".jl")])
