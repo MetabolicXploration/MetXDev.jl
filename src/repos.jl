@@ -23,6 +23,8 @@ METX_PKGS_REGISTRY = Dict(
     "SimpleLockFiles" => ("https://github.com/josePereiro/SimpleLockFiles.jl", "main"),
 )
 
+# TODO make a simple clone to dev function
+
 # just Pkg.add(;url)
 function add_repos(proj::String = ""; rm = false)
     activate(proj) do
@@ -36,13 +38,17 @@ function add_repos(proj::String = ""; rm = false)
 end
 
 # the equivalent to git pull + dev(pkg)
-function dev_repos(proj::String = ""; rm = false)
+function dev_repos(proj::String = ""; rm = false, devlocal = true)
     activate(proj) do
         for (name, (url, _)) in METX_PKGS_REGISTRY
             println("."^40)
             @show name
             rm && _ignore_err(() -> Pkg.rm(name))
-            _ignore_err(() -> Pkg.develop(;url))
+            # try pull first
+            dir = joinpath(Pkg.devdir(), name)
+            isdir(dir) || _ignore_err(() -> Pkg.develop(;url))
+            # dev local path
+            devlocal && _ignore_err(() -> Pkg.develop(;name))
         end
     end
 end
