@@ -6,6 +6,7 @@ module MetXDev
     import Pkg: PackageSpec
 
     #! include .
+    include("gitcmds.jl")
     include("juliadev.jl")
     include("registries.jl")
     include("repos.jl")

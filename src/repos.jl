@@ -23,12 +23,10 @@ METX_PKGS_REGISTRY = Dict(
     "SimpleLockFiles" => ("https://github.com/josePereiro/SimpleLockFiles.jl", "main"),
 )
 
-# TODO make a simple clone to dev function
-
 # just Pkg.add(;url)
-function add_repos(proj::String = ""; rm = false)
+function add_repos(proj::String = "", reg = METX_PKGS_REGISTRY; rm = false)
     activate(proj) do
-        for (name, (url, rev)) in METX_PKGS_REGISTRY
+        for (name, (url, rev)) in reg
             println("."^40)
             @show name
             rm && _ignore_err(() -> Pkg.rm(name))
@@ -38,9 +36,9 @@ function add_repos(proj::String = ""; rm = false)
 end
 
 # the equivalent to git pull + dev(pkg)
-function dev_repos(proj::String = ""; rm = false, devlocal = true)
+function dev_repos(proj::String = "", reg = METX_PKGS_REGISTRY; rm = false, devlocal = true)
     activate(proj) do
-        for (name, (url, _)) in METX_PKGS_REGISTRY
+        for (name, (url, _)) in reg
             println("."^40)
             @show name
             rm && _ignore_err(() -> Pkg.rm(name))
@@ -54,54 +52,9 @@ function dev_repos(proj::String = ""; rm = false, devlocal = true)
 end
 
 # Assumes repos are at dev
-function push_devrepos(dev = Pkg.devdir())
-    for name in keys(METX_PKGS_REGISTRY)
-        dirs = joinpath.([dev], [name, string(name, ".jl")])
-        for dir in dirs
-            println("."^40)
-            @show dir
-            if !isdir(dir) 
-                @warn("Dir not found", dir)
-                continue
-            end
-            _ignore_err() do
-                cd(dir) do
-                    cmd = Cmd(`git push`; ignorestatus = true)
-                    println(read(cmd, String))
-                end
-            end
-            break
-        end
-    end
-end
-
-# Assumes repos are at dev
-# git pull att dev/pkg
-function pull_devrepos(dev = Pkg.devdir())
-    for name in keys(METX_PKGS_REGISTRY)
-        dirs = joinpath.([dev], [name, string(name, ".jl")])
-        for dir in dirs
-            println("."^40)
-            @show dir
-            if !isdir(dir) 
-                @warn("Dir not found", dir)
-                continue
-            end
-            _ignore_err() do
-                cd(dir) do
-                    cmd = Cmd(`git pull`; ignorestatus = true)
-                    println(read(cmd, String))
-                end
-            end
-            break
-        end
-    end
-end
-
-# Assumes repos are at dev
 # git status at dev/pkg
-function gitst_devrepos(dev = Pkg.devdir(); dostep = false)
-    for name in keys(METX_PKGS_REGISTRY)
+function gitst_devrepos(dev = Pkg.devdir(), reg = METX_PKGS_REGISTRY; dostep = false)
+    for name in keys(reg)
         dirs = joinpath.([dev], [name, string(name, ".jl")])
         for dir in dirs
             println("."^40)
@@ -123,8 +76,8 @@ function gitst_devrepos(dev = Pkg.devdir(); dostep = false)
 end
 
 # Assumes repos are at dev
-function resolve_devrepos(dev = Pkg.devdir())
-    for name in keys(METX_PKGS_REGISTRY)
+function resolve_devrepos(dev = Pkg.devdir(), reg = METX_PKGS_REGISTRY)
+    for name in keys(reg)
         dirs = joinpath.([dev], [name, string(name, ".jl")])
         for dir in dirs
             println("."^40)
@@ -144,8 +97,8 @@ function resolve_devrepos(dev = Pkg.devdir())
 end
 
 # Assumes repos are at dev
-function instantiate_devrepos(dev = Pkg.devdir())
-    for name in keys(METX_PKGS_REGISTRY)
+function instantiate_devrepos(dev = Pkg.devdir(), reg = METX_PKGS_REGISTRY)
+    for name in keys(reg)
         dirs = joinpath.([dev], [name, string(name, ".jl")])
         for dir in dirs
             println("."^40)
