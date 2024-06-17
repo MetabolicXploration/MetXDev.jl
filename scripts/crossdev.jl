@@ -32,6 +32,8 @@ _REGISTRY = [
     ("ContextDBs", "https://github.com/josePereiro/ContextDBs.jl", "main"),
     ("ImgTools", "https://github.com/josePereiro/ImgTools.jl", "main"),
     ("ProjFlows", "https://github.com/MetabolicXploration/ProjFlows.jl", "main"),
+    ("NDHistograms", "https://github.com/josePereiro/NDHistograms.jl", "main"),
+    
 ]
 
 ## -.. -.-.- ----.. -..- .-..- --...-. -. -. .-... -

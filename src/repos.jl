@@ -21,6 +21,8 @@ METX_PKGS_REGISTRY = Dict(
     "ImgTools" => ("https://github.com/josePereiro/ImgTools.jl", "main"),
     "FilesTreeTools" => ("https://github.com/josePereiro/FilesTreeTools.jl", "main"),
     "SimpleLockFiles" => ("https://github.com/josePereiro/SimpleLockFiles.jl", "main"),
+    "NDHistograms" => ("https://github.com/josePereiro/NDHistograms.jl", "main"),
+    "Bloberias" => ("https://github.com/josePereiro/Bloberias.jl", "main"),
 )
 
 # just Pkg.add(;url)
